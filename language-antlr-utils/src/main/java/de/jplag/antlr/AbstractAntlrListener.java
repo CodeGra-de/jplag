@@ -149,7 +149,11 @@ public abstract class AbstractAntlrListener {
         queue.add(context);
         while (!queue.isEmpty()) {
             ParserRuleContext next = queue.removeFirst();
-            for (ParseTree tree : next.children) {
+            var children = next.children;
+            if (children == null) {
+                continue;
+            }
+            for (ParseTree tree : children) {
                 if (tree.getClass() == descendant) {
                     return descendant.cast(tree);
                 }
